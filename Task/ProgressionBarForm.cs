@@ -10,7 +10,7 @@ using System.Windows;
 using System.Threading;
 
 
-namespace Ardano
+namespace Ardano.Library
 {
 
     public partial class ProgressionBarForm : System.Windows.Forms.Form

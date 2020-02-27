@@ -1,4 +1,4 @@
-﻿namespace Ardano
+﻿namespace Ardano.Library
 {
     public partial class ProgressionBarForm
     {
