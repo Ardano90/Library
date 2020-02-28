@@ -22,7 +22,9 @@ namespace Ardano.Library
 
         public void UpdateProgress()
         {
-            ProgressChanged?.Invoke(this, Progress);
+            UIDispatcher.Invoke(new Action(() => {
+                ProgressChanged?.Invoke(this, Progress);
+            }));
         }
 
 
@@ -32,8 +34,7 @@ namespace Ardano.Library
             UIDispatcher = currentDispatcher;
 
             currentDispatcher.Invoke(new Action(() => {
-                if (ProgressChanged != null)
-                    ProgressChanged(this, Progress);
+                ProgressChanged?.Invoke(this, Progress);
             }));
 
 
