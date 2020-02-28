@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Windows.Threading;
 
 namespace Ardano.Library
 {
@@ -16,6 +17,8 @@ namespace Ardano.Library
 
         public TaskProgress Progress { get; set; } = new TaskProgress();
 
+        private Dispatcher UIDispatcher;
+
 
         public void UpdateProgress()
         {
@@ -25,8 +28,16 @@ namespace Ardano.Library
 
         private void startThread(object eventHandler)
         {
-            var handler = (EventHandler<TaskProgress>)eventHandler;
-            using (ProgressionBarForm pgbr = new ProgressionBarForm(handler))
+            Dispatcher currentDispatcher = System.Windows.Threading.Dispatcher.CurrentDispatcher;
+            UIDispatcher = currentDispatcher;
+
+            currentDispatcher.Invoke(new Action(() => {
+                if (ProgressChanged != null)
+                    ProgressChanged(this, Progress);
+            }));
+
+
+            using (ProgressionBarForm pgbr = new ProgressionBarForm(ProgressChanged))
             {
                 pgbr.Show();
                 pgbr.Focus();
@@ -34,6 +45,13 @@ namespace Ardano.Library
                 System.Windows.Threading.Dispatcher.Run();
             }
 
+        }
+
+        public void Close()
+        {
+            UIDispatcher.Invoke(new Action(() => {
+                UIDispatcher.Thread.Abort(); ;
+            }));
         }
 
 
