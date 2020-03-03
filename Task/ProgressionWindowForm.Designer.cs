@@ -1,6 +1,6 @@
-﻿namespace Ardano.Library
+﻿namespace Ardano.DamToolbox.DamPrint.CS
 {
-    public partial class ProgressionBarForm
+    public partial class ProgressionWindowForm
     {
         /// <summary>
         /// Required designer variable.

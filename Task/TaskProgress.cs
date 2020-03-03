@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ardano.Library
+namespace Ardano.DamToolbox.DamPrint.CS
 {
     public class TaskProgress
     {
-        public int PercentageDone { get; set; }
+
+
+        public int PercentageDone { get; set; } = 0;
 
         public string Label1 { get; set; } = "";
 
@@ -19,6 +21,7 @@ namespace Ardano.Library
         public string Label4 { get; set; } = "";
 
         public string Label5 { get; set; } = "";
+
 
     }
 }
