@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Threading;
 
-namespace Ardano.DamToolbox.DamPrint.CS
+namespace Ardano.Library
 {
     public class ProgressionWindow
     {

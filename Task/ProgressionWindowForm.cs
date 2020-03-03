@@ -10,7 +10,7 @@ using System.Windows;
 using System.Threading;
 
 
-namespace Ardano.DamToolbox.DamPrint.CS
+namespace Ardano.Library
 {
 
     public partial class ProgressionWindowForm : System.Windows.Forms.Form

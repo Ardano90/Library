@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ardano.DamToolbox.DamPrint.CS
+namespace Ardano.Library
 {
     public class TaskProgress
     {

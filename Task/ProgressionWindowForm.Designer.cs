@@ -1,4 +1,4 @@
-﻿namespace Ardano.DamToolbox.DamPrint.CS
+﻿namespace Ardano.Library
 {
     public partial class ProgressionWindowForm
     {
