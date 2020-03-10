@@ -7,8 +7,8 @@
     <ProjectGuid>{70D6644C-3F7A-49AC-A3BB-45446983C52D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RevitTask</RootNamespace>
-    <AssemblyName>RevitTask</AssemblyName>
+    <RootNamespace>Ardano.Library</RootNamespace>
+    <AssemblyName>ProgressionWindow</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

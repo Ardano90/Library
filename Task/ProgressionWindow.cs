@@ -4,40 +4,67 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Threading;
+using System.Windows.Forms;
 
 namespace Ardano.Library
 {
     public class ProgressionWindow
     {
-
-        private DateTime StartTime;
-
-
         private Dispatcher UIDispatcher;
 
         private ProgressionWindowForm progBarForm;
 
         private event EventHandler<TaskProgress> ProgressChangedEvent;
 
+        private bool estimate = false;
 
-        public ProgressionWindow()
+        private bool subtask = false;
+
+        private DateTime StartTime;
+
+
+        public TaskProgress Progress { get; set; } = new TaskProgress();
+
+        /// <summary>
+        /// Creates a window in a new thread, wich shows the progression of a task
+        /// </summary>
+        /// <param name="estimateTime"></param>
+        /// <param name="ProgressSubtask"></param>
+
+        public ProgressionWindow(bool EstimateTime, bool SubtaskProgress)
 
         {
-            Dispatcher currentDispatcher = System.Windows.Threading.Dispatcher.CurrentDispatcher;
+            estimate = EstimateTime;
+            subtask = SubtaskProgress;
+
+            StartTime = DateTime.Now;
+
 
             Thread t = new Thread(startThread);
             t.Start();
-        }
 
+        }
 
 
         private void Prog_ProgressChanged(object sender, TaskProgress e)
         {
-            progBarForm.ChangeLabels(e);
+
+            if (estimate == true)
+            {
+                if (e.PercentageDone > 0)
+                {
+                    TimeSpan timeSpent = TimeSpan.FromTicks(DateTime.Now.Subtract(StartTime).Ticks);
+                    TimeSpan estimatedTime = TimeSpan.FromMilliseconds((timeSpent.TotalMilliseconds / e.PercentageDone) * (100 - e.PercentageDone));
+                    string estimatedTimeString = string.Format("{0:D2}m:{1:D2}s",
+                        estimatedTime.Minutes,
+                        estimatedTime.Seconds);
+                    e.LabelEstimatedDuration = estimatedTimeString;
+                }
+            }
+
+            progBarForm.UpdateControls(e);
 
         }
-
-        public TaskProgress Progress { get; set; } = new TaskProgress();
 
 
         public void UpdateProgress()
@@ -49,6 +76,10 @@ namespace Ardano.Library
             }));
 
         }
+
+        /// <summary>
+        /// check this property periodically to cancel your task at the right moment
+        /// </summary>
 
         public Boolean Cancelled
         {
@@ -65,27 +96,29 @@ namespace Ardano.Library
             Dispatcher currentDispatcher = System.Windows.Threading.Dispatcher.CurrentDispatcher;
             UIDispatcher = currentDispatcher;
 
-            using (ProgressionWindowForm pgbr = new ProgressionWindowForm())
+            using (ProgressionWindowForm pgbr = new ProgressionWindowForm(estimate, subtask))
             {
-                pgbr.Show();
+                progBarForm = pgbr;
+                ProgressChangedEvent += Prog_ProgressChanged;
                 pgbr.BringToFront();
                 pgbr.Focus();
-                progBarForm = pgbr;
 
-                ProgressChangedEvent += Prog_ProgressChanged;
 
-                System.Windows.Threading.Dispatcher.Run();
+
+                System.Windows.Forms.Application.Run(pgbr);
+
             }
 
         }
 
+
         public void Close()
         {
             UIDispatcher.Invoke(new Action(() => {
-                UIDispatcher.Thread.Abort(); ;
+
+                System.Windows.Forms.Application.Exit();
             }));
         }
-
 
     }
 }

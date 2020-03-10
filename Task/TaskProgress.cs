@@ -7,20 +7,128 @@ using System.Threading.Tasks;
 namespace Ardano.Library
 {
     public class TaskProgress
+
     {
 
+        private int percentageDone = 0;
+        private object percentageDoneLock = new object();
 
-        public int PercentageDone { get; set; } = 0;
+        private int percentageDoneSubtask = 0;
+        private object percentageDoneSubtaskLock = new object();
 
-        public string Label1 { get; set; } = "";
+        private string labelEstimatedDuration;
+        private object labelEstimateDurationLock = new object();
 
-        public string Label2 { get; set; } = "";
+        private string labelTask = "";
+        private object labelTaskLock = new object();
 
-        public string Label3 { get; set; } = "";
+        private string labelSubtask = "";
+        private object labelSubtaskLock = new object();
 
-        public string Label4 { get; set; } = "";
+        public string LabelSubtask
+        {
+            get
+            {
+                lock (labelSubtaskLock)
+                {
+                    return labelSubtask;
+                }
+            }
 
-        public string Label5 { get; set; } = "";
+            set
+            {
+                lock (labelSubtaskLock)
+                {
+                    labelSubtask = value;
+                }
+            }
+        }
+
+
+        public string LabelTask
+        {
+            get
+            {
+                lock (labelTaskLock)
+                {
+                    return labelTask;
+                }
+
+            }
+
+
+            set
+            {
+                lock (labelTaskLock)
+                {
+                    labelTask = value;
+
+                }
+            }
+        }
+
+
+        public string LabelEstimatedDuration
+        {
+            get
+            {
+                lock (labelEstimateDurationLock)
+                {
+                    return labelEstimatedDuration;
+                }
+
+            }
+
+
+            set
+            {
+                lock (labelEstimateDurationLock)
+                {
+                    labelEstimatedDuration = value;
+
+                }
+            }
+        }
+
+
+
+        public int PercentageDone
+        {
+            get
+            {
+                lock (percentageDoneLock)
+                {
+                    return percentageDone;
+                }
+            }
+
+            set
+            {
+                lock (percentageDoneLock)
+                {
+                    percentageDone = value;
+                }
+            }
+        }
+
+        public int PercentageDoneSubtask
+        {
+            get
+            {
+                lock (percentageDoneSubtaskLock)
+                {
+                    return percentageDoneSubtask;
+                }
+            }
+
+            set
+            {
+                lock (percentageDoneSubtaskLock)
+                {
+                    percentageDoneSubtask = value;
+                }
+            }
+        }
 
 
     }
